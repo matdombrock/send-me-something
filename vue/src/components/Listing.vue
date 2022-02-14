@@ -1,9 +1,8 @@
 <template>
   <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
   <div class="listing">
-    Debug Target: {{target}}<br>
-    <span class="listing-item" @click="back()">🗀 .. </span>
-    <br>
+    <span class="listing-item" @click="back()">🗀 {{target[target.length-1] || ''}}/..</span>
+    <hr>
     <div class="listing-item" v-for="(item, index) of data.children" :key="index">
         <span v-if="item.children" @click="selectDir(item.path)">🗀 {{item.name}}</span>
         <a v-else :href="item.path" target="_blank">{{item.name}}</a>
