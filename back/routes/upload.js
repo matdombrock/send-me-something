@@ -2,19 +2,21 @@ const fs = require('fs');
 const db = require('../db');
 const path = require('path');
 
-const config = require('../config');
+const config = require('../../config');
 
 module.exports = async (req, res) => { 
-  const fileName = req.body.fileName;
+  console.log('New Upload From: '+req.user.username);
   const file = req.files.upload;
 
   const username = req.user.username;
 
-  if(!username || !fileName || !file){
+  console.log(JSON.stringify(file.name));
+
+  if(!username || !file){
     res.status(403).send('Missing Arguments!');
     return;
   }
-  const out = await uploadFile(username, fileName, file);
+  const out = await uploadFile(username, file);
   if(!out){
     res.status(403).send('A file with this name already exists!');
     return;
@@ -22,35 +24,36 @@ module.exports = async (req, res) => {
   res.send(out);
 };
 
-async function uploadFile(username, fileName, fileData){
-  fileName = fileName.replaceAll(' ','_');
+async function uploadFile(username, fileData){
 
   const actualFileName = fileData.name;
   const ext = path.extname(actualFileName);
 
-  const baseUploadDir =  config.base_upload_dir ? config.base_upload_dir : __dirname+'/../uploads/';
+  const baseUploadDir =  config.local_incoming_dir ? config.local_incoming_dir : __dirname+'/../uploads/';
 
   const userDir = username+'/';
   const userDirFull = baseUploadDir+userDir;// For mv
   
-  const filePath = userDir+fileName+ext;
-  const filePathFull = userDirFull+fileName+ext; // for mv
+  //const filePath = userDir+actualFileName+ext;
+  //const filePathFull = userDirFull+actualFileName+ext; // for mv
+  const filePath = userDir+actualFileName;
+  const filePathFull = userDirFull+actualFileName; // for mv
 
-  const found = await db.Uploads.findOne({
-    where:{
-      file_path: filePath
-    }
-  });
-  if(found){
-    return false;
-  }
+  // const found = await db.Uploads.findOne({
+  //   where:{
+  //     file_path: filePath
+  //   }
+  // });
+  // if(found){
+  //   return false;
+  // }
   if (!fs.existsSync(userDirFull)){
     fs.mkdirSync(userDirFull,{ recursive: true });
   }
   fileData.mv(filePathFull);
   const res = await db.Uploads.create({
     username: username, 
-    file_name: fileName,
+    file_name: actualFileName,
     file_path: filePath,
     extension: ext
   });

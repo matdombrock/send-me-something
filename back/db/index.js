@@ -1,5 +1,5 @@
 const { Sequelize } = require('sequelize');
-const config = require('../config');
+const config = require('../../config');
 
 const sequelize = new Sequelize({
   dialect: 'sqlite',
@@ -16,33 +16,37 @@ const User = sequelize.define('User', {
   password: {
     type: Sequelize.STRING,
     allowNull: false
+  },
+  isAdmin:{
+    type: Sequelize.BOOLEAN,
+    allowNull: false
   }
 }, {
   // Other model options go here
 });
 
-const Uploads = sequelize.define('uploads', {
-  // Model attributes are defined here
-  username: {
-    type: Sequelize.STRING,
-    allowNull: false
-  },
-  file_name: {
-    type: Sequelize.STRING,
-    allowNull: false
-  },
-  file_path: {
-    type: Sequelize.STRING,
-    allowNull: false
-  },
-  extension: {
-    type: Sequelize.STRING,
-    allowNull: false
-  }
-}, {
-  // Other model options go here
-  timestamps: true,
-});
+// const Uploads = sequelize.define('uploads', {
+//   // Model attributes are defined here
+//   username: {
+//     type: Sequelize.STRING,
+//     allowNull: false
+//   },
+//   file_name: {
+//     type: Sequelize.STRING,
+//     allowNull: false
+//   },
+//   file_path: {
+//     type: Sequelize.STRING,
+//     allowNull: false
+//   },
+//   extension: {
+//     type: Sequelize.STRING,
+//     allowNull: false
+//   }
+// }, {
+//   // Other model options go here
+//   timestamps: true,
+// });
 
 async function syncTables(){
   await sequelize.sync({force:true});
@@ -53,7 +57,7 @@ module.exports = {
     syncTables
   },
   User,
-  Uploads
+  //Uploads
 }
 
 
