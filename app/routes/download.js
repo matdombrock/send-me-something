@@ -2,7 +2,8 @@ const fs = require('fs');
 const db = require('../db');
 const path = require('path');
 
-const config = require('/var/sendme/config');
+let config;
+try{ config = require('/var/sendme/config')}catch(err){ config = require('../config')};;
 
 module.exports = async (req, res) => { 
   const baseUploadDir =  config.local_incoming_dir ? config.local_incoming_dir : __dirname+'/../uploads/';

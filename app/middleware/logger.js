@@ -1,4 +1,5 @@
-const config = require('/var/sendme/config');
+let config;
+try{ config = require('/var/sendme/config')}catch(err){ config = require('../config')};;
 
 module.exports = function (req, res, next) {
   const data = {

@@ -9,13 +9,13 @@ if (fs.existsSync('/var/sendme')){
   if(!fs.existsSync('/var/sendme/users.json')){
     fs.writeFileSync('/var/sendme/users.json', JSON.stringify([{username:'admin',password:'admin'}], null, 2));
   }
-}else{
-  console.log('ERROR: Must mount a volume to /var/sendme');
-  return;
 }
 
-const config = require('/var/sendme/config');
-const usersList = require('/var/sendme/users.json');
+let config;
+try{ config = require('/var/sendme/config')}catch(err){ config = require('./config')};
+let usersList;
+try{ usersList = require('/var/sendme/users.json')}catch(err){ usersList = require('./users.json')};
+
 
 
 
