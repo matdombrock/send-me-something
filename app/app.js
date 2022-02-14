@@ -29,7 +29,7 @@ const logger = require('./middleware/logger');
 const serveIndex = require('serve-index');
 const createUser = require('./util/createUser');
 
-const getAllFiles = require('./util/getAllFiles');
+const dirToJSON = require('./util/dirToJSON');
 
 const app = express();
 const port = config.port ? config.port : 3000;
@@ -55,14 +55,9 @@ app.use(express.urlencoded({extended: true}));
 // });
 
 app.post('/p',auth, (req, res) => {
-  //const allFiles = getAllFiles('local');
+  //const allFiles = dirToJSON('local');
   //res.send(allFiles);
-  const dirTree = require("directory-tree");
-  const path = require('path');
-  const normalPath = path.normalize(config.local_public_dir).replaceAll('\\','/');
-  let tree = dirTree(normalPath, {normalizePath: true});
-  tree = JSON.stringify(tree).replaceAll(normalPath, '/');
-  tree = JSON.parse(tree);
+  const tree = dirToJSON(config.local_public_dir, '/public/');
   res.send(tree);
 });
 

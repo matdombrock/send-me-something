@@ -10,6 +10,7 @@
       </div>
       <Upload :user="user"/>
     </div>
+    <Listing />
     <a class="footer sm" href="/public/" target="_blank">VIEW MY PUBLIC FILES</a>
   </div>
 </template>
@@ -17,6 +18,7 @@
 <script>
 import Upload from './components/Upload.vue';
 import Login from './components/Login.vue';
+import Listing from './components/Listing.vue';
 export default {
   name: 'App',
   metaInfo: {
@@ -24,13 +26,50 @@ export default {
   },
   components: {
     Upload,
-    Login
+    Login,
+    Listing
   },
   data:()=>{
     return {
       user:{
         isLoggedIn: false,
         token: ''
+      },
+      test:{
+        "path": "/public/",
+        "name": "public",
+        "children": [
+            {
+                "path": "/public/music",
+                "name": "music",
+                "children": [
+                    {
+                        "path": "/public/music/BoardOfWashington.wav",
+                        "name": "BoardOfWashington.wav"
+                    },
+                    {
+                        "path": "/public/music/KeyPadDemo.wav",
+                        "name": "KeyPadDemo.wav"
+                    },
+                    {
+                        "path": "/public/music/KeyPadWBeatDemo.wav",
+                        "name": "KeyPadWBeatDemo.wav"
+                    },
+                    {
+                        "path": "/public/music/side_b_urban_beaches.aif",
+                        "name": "side_b_urban_beaches.aif"
+                    }
+                ]
+            },
+            {
+                "path": "/public/seaplane2.png",
+                "name": "seaplane2.png"
+            },
+            {
+                "path": "/public/selectseaplane.png",
+                "name": "selectseaplane.png"
+            }
+        ]
       }
     }
   },
