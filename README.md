@@ -1,3 +1,11 @@
+## Running on Host Machine
+```
+git clone https://github.com/matdombrock/send-me-something.git
+cd send-me-something/app
+npm install
+node app
+```
+
 ## Running with Docker
 
 [https://hub.docker.com/repository/docker/matdombrock/send-me-something](https://hub.docker.com/repository/docker/matdombrock/send-me-something)
