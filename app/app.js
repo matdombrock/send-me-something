@@ -71,7 +71,9 @@ async function start(){
     console.log('Found private directory at: '+config.local_private_dir);
   }
   // createUsers
-  await createUser.createList(usersList);
+  if(usersList){
+    await createUser.createList(usersList);
+  }
   // start server
   app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`)
