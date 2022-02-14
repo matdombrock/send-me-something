@@ -1,5 +1,3 @@
-docker run --mount type=bind,source=C:/Users/dombr/sendmeVol,target=/var/sendme -p 1337:8080 -it --name sendme matdombrock/selfshare
-
 # Express Authentication Boilerplate
 This is a minimalist authentication boilerplate for an Express API. Passwords are hashed and authentication is done via JWT. Endpoints for creating users, logging in ect. are already in place. This project uses Sequelize as an ORM with a simple SQLite database implementation containing only a `users` table. 
 
