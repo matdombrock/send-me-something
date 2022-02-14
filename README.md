@@ -18,5 +18,5 @@ docker run --mount type=bind,source=C:/<local-path>,target=/var/sendme -p 1337:8
 
 For example:
 ```bash
-docker run --mount type=bind,source=C:/C:/Users/dombr/sendmeVol,target=/var/sendme -p 1337:8080 -it --name sendme matdombrock/send-me-something
+docker run --mount type=bind,source=C:/Users/dombr/sendmeVol,target=/var/sendme -p 1337:8080 -it --name sendme matdombrock/send-me-something
 ```
