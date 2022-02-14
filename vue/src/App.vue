@@ -35,42 +35,6 @@ export default {
         isLoggedIn: false,
         token: ''
       },
-      test:{
-        "path": "/public/",
-        "name": "public",
-        "children": [
-            {
-                "path": "/public/music",
-                "name": "music",
-                "children": [
-                    {
-                        "path": "/public/music/BoardOfWashington.wav",
-                        "name": "BoardOfWashington.wav"
-                    },
-                    {
-                        "path": "/public/music/KeyPadDemo.wav",
-                        "name": "KeyPadDemo.wav"
-                    },
-                    {
-                        "path": "/public/music/KeyPadWBeatDemo.wav",
-                        "name": "KeyPadWBeatDemo.wav"
-                    },
-                    {
-                        "path": "/public/music/side_b_urban_beaches.aif",
-                        "name": "side_b_urban_beaches.aif"
-                    }
-                ]
-            },
-            {
-                "path": "/public/seaplane2.png",
-                "name": "seaplane2.png"
-            },
-            {
-                "path": "/public/selectseaplane.png",
-                "name": "selectseaplane.png"
-            }
-        ]
-      }
     }
   },
   methods:{
