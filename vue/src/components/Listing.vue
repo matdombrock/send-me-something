@@ -1,10 +1,11 @@
 <template>
   <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
   <div class="listing">
-    <span class="listing-item" @click="back()">🗀 ..</span>
+    Debug Target: {{target}}<br>
+    <span class="listing-item" @click="back()">🗀 .. </span>
     <br>
     <div class="listing-item" v-for="(item, index) of data.children" :key="index">
-        <span v-if="item.children" @click="selectDir(index)">🗀 {{item.name}}</span>
+        <span v-if="item.children" @click="selectDir(item.path)">🗀 {{item.name}}</span>
         <a v-else :href="item.path" target="_blank">{{item.name}}</a>
         <br>
     </div>
@@ -48,7 +49,29 @@ export default {
                     {
                         "path": "/public/music/side_b_urban_beaches.aif",
                         "name": "side_b_urban_beaches.aif"
-                    }
+                    },
+                    {
+                    "path": "/public/music/music2",
+                    "name": "music2",
+                    "children": [
+                        {
+                            "path": "/public/music/BoardOfWashington.wav",
+                            "name": "BoardOfWashington.wav"
+                        },
+                        {
+                            "path": "/public/music/KeyPadDemo.wav",
+                            "name": "KeyPadDemo.wav"
+                        },
+                        {
+                            "path": "/public/music/KeyPadWBeatDemo.wav",
+                            "name": "KeyPadWBeatDemo.wav"
+                        },
+                        {
+                            "path": "/public/music/side_b_urban_beaches.aif",
+                            "name": "side_b_urban_beaches.aif"
+                        }
+                    ]
+            },
                 ]
             },
             {
@@ -66,14 +89,18 @@ export default {
     }
   },
   methods:{
-      selectDir: function(index){
-          this.target.push(index);
+      selectDir: function(path){
+          this.target.push(path);
           this.refreshListing();
       },
       refreshListing: function(){
           let out = this.test;
-          for(let index of this.target){
-              out = out.children[index];
+          for(let path of this.target){
+              for(let item of out.children){
+                  if(item.path === path){
+                      out = item;
+                  }
+              }
           }
           if(out.children){
               this.data = out;
@@ -81,7 +108,7 @@ export default {
       },
       back: function(){
           if(this.target.length > 1){
-              this.target = this.target.pop();
+              this.target.pop();
           }else{
               this.target = [];
           }
