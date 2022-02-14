@@ -1,9 +1,9 @@
 #! /bin/bash
 
-cd front
+cd vue
 npm run build
 cd ..
-cp -r front/dist/* back/view/
+cp -r vue/dist/* app/view/
 
 
 read -n 1 -r -s -p $'Press enter to continue...\n'
