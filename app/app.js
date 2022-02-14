@@ -61,7 +61,8 @@ app.post('/p',auth, (req, res) => {
   const path = require('path');
   const normalPath = path.normalize(config.local_public_dir).replaceAll('\\','/');
   let tree = dirTree(normalPath, {normalizePath: true});
-  tree = JSON.parse(JSON.stringify(tree).replaceAll(normalPath, '/'));
+  tree = JSON.stringify(tree).replaceAll(normalPath, '/');
+  tree = JSON.parse(tree);
   res.send(tree);
 });
 
