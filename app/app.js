@@ -29,6 +29,8 @@ const logger = require('./middleware/logger');
 const serveIndex = require('serve-index');
 const createUser = require('./util/createUser');
 
+const getAllFiles = require('./util/getAllFiles');
+
 const app = express();
 const port = config.port ? config.port : 3000;
 
@@ -51,6 +53,17 @@ app.use(express.urlencoded({extended: true}));
 // app.get('/',(req, res) => {
 //   res.send('Hello World!');
 // });
+
+app.post('/p',auth, (req, res) => {
+  //const allFiles = getAllFiles('local');
+  //res.send(allFiles);
+  const dirTree = require("directory-tree");
+  const path = require('path');
+  const normalPath = path.normalize(config.local_public_dir).replaceAll('\\','/');
+  let tree = dirTree(normalPath, {normalizePath: true});
+  tree = JSON.parse(JSON.stringify(tree).replaceAll(normalPath, '/'));
+  res.send(tree);
+});
 
 //app.post('/welcome', auth, routes.welcome);
 
