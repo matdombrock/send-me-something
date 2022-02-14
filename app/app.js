@@ -1,7 +1,23 @@
-const config = require('../config');
-const usersList = require('../users.json');
-
 const fs = require('fs');
+
+// look for volume
+if (fs.existsSync('/var/sendme')){
+  if(!fs.existsSync('/var/sendme/config.js')){
+    const configExample = fs.readFileSync('./config.example.js','utf-8');
+    fs.writeFileSync('/var/sendme/config.js', configExample);
+  }
+  if(!fs.existsSync('/var/sendme/users.json')){
+    fs.writeFileSync('/var/sendme/users.json', JSON.stringify([{username:'admin',password:'admin'}], null, 2));
+  }
+}else{
+  console.log('ERROR: Must mount a volume to /var/sendme');
+  return;
+}
+
+const config = require('/var/sendme/config');
+const usersList = require('/var/sendme/users.json');
+
+
 
 const express = require('express');
 const fileUpload = require('express-fileupload');

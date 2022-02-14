@@ -1,5 +1,5 @@
 const { Sequelize } = require('sequelize');
-const config = require('../../config');
+const config = require('/var/sendme/config');
 
 const sequelize = new Sequelize({
   dialect: 'sqlite',

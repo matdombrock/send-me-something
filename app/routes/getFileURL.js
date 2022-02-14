@@ -1,7 +1,7 @@
 // not used
 
 const db = require('../db');
-const config = require('../../config');
+const config = require('/var/sendme/config');
 module.exports = async (req, res) => { 
   const baseUploadDir =  config.local_incoming_dir ? config.local_incoming_dir : __dirname+'/../uploads/';
   const filePath = req.body.filePath;

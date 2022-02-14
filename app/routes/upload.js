@@ -2,7 +2,7 @@ const fs = require('fs');
 const db = require('../db');
 const path = require('path');
 
-const config = require('../../config');
+const config = require('/var/sendme/config');
 
 module.exports = async (req, res) => { 
   console.log('New Upload From: '+req.user.username);
@@ -51,11 +51,8 @@ async function uploadFile(username, fileData){
     fs.mkdirSync(userDirFull,{ recursive: true });
   }
   fileData.mv(filePathFull);
-  const res = await db.Uploads.create({
-    username: username, 
-    file_name: actualFileName,
-    file_path: filePath,
-    extension: ext
-  });
-  return res;
+  return {
+    actualFileName,
+    filePathFull
+  };
 }
