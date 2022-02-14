@@ -15,3 +15,8 @@ Replace `<local-path>` with the location you want to store your files and config
 ```bash
 docker run --mount type=bind,source=C:/<local-path>,target=/var/sendme -p 1337:8080 -it --name sendme matdombrock/send-me-something
 ```
+
+For example:
+```bash
+docker run --mount type=bind,source=C:/C:/Users/dombr/sendmeVol,target=/var/sendme -p 1337:8080 -it --name sendme matdombrock/send-me-something
+```
