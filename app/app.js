@@ -81,8 +81,7 @@ app.post('/api/dlToken', (req, res)=>{
     default:
         res.send('Unknown type');
   }
-  //const lastEl = dir.split('/').pop();
-  const fullPath = dir.replaceAll('/'+type+'/', '') + path;// hack for now
+  const fullPath = dir.replaceAll('/'+type+'/', '') + path;
   downloadTokens['testToken'] = [fullPath, name];
   console.log('New dlToken: '+downloadTokens['testToken']);
   res.send('testToken');
