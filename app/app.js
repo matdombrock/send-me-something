@@ -29,8 +29,6 @@ const logger = require('./middleware/logger');
 const serveIndex = require('serve-index');
 const createUser = require('./util/createUser');
 
-const dirToJSON = require('./util/dirToJSON');
-
 const app = express();
 const port = config.port ? config.port : 3000;
 
@@ -54,12 +52,7 @@ app.use(express.urlencoded({extended: true}));
 //   res.send('Hello World!');
 // });
 
-app.post('/p',auth, (req, res) => {
-  //const allFiles = dirToJSON('local');
-  //res.send(allFiles);
-  const tree = dirToJSON(config.local_public_dir, '/public/');
-  res.send(tree);
-});
+app.post('/api/dirListing',auth, routes.dirListing);
 
 //app.post('/welcome', auth, routes.welcome);
 
