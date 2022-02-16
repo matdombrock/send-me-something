@@ -5,5 +5,6 @@ module.exports = {
   upload: require('./upload'),
   download: require('./download'),
   getFileURL: require('./getFileURL'),
-  listUploads: require('./listUploads')
+  listUploads: require('./listUploads'),
+  dirListing: require('./dirListing')
 };
