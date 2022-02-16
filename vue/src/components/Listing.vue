@@ -12,88 +12,36 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: 'App',
-  metaInfo: {
-    title: 'About Us'
+  props: {
+      type: String,
+      user: Object
   },
   components: {
   },
   mounted(){
-      this.data = this.test;
+      this.refresh();
   },
   data:()=>{
     return {
-        
-      test:{
-        "path": "/public/",
-        "name": "public",
-        "children": [
-            {
-                "path": "/public/music",
-                "name": "music",
-                "children": [
-                    {
-                        "path": "/public/music/BoardOfWashington.wav",
-                        "name": "BoardOfWashington.wav"
-                    },
-                    {
-                        "path": "/public/music/KeyPadDemo.wav",
-                        "name": "KeyPadDemo.wav"
-                    },
-                    {
-                        "path": "/public/music/KeyPadWBeatDemo.wav",
-                        "name": "KeyPadWBeatDemo.wav"
-                    },
-                    {
-                        "path": "/public/music/side_b_urban_beaches.aif",
-                        "name": "side_b_urban_beaches.aif"
-                    },
-                    {
-                    "path": "/public/music/music2",
-                    "name": "music2",
-                    "children": [
-                        {
-                            "path": "/public/music/BoardOfWashington.wav",
-                            "name": "BoardOfWashington.wav"
-                        },
-                        {
-                            "path": "/public/music/KeyPadDemo.wav",
-                            "name": "KeyPadDemo.wav"
-                        },
-                        {
-                            "path": "/public/music/KeyPadWBeatDemo.wav",
-                            "name": "KeyPadWBeatDemo.wav"
-                        },
-                        {
-                            "path": "/public/music/side_b_urban_beaches.aif",
-                            "name": "side_b_urban_beaches.aif"
-                        }
-                    ]
-            },
-                ]
-            },
-            {
-                "path": "/public/seaplane2.png",
-                "name": "seaplane2.png"
-            },
-            {
-                "path": "/public/selectseaplane.png",
-                "name": "selectseaplane.png"
-            }
-        ]
-      },
         target:[],
         data: [],
+        listing:[],
     }
   },
   methods:{
+      refresh: async function(){
+          await this.getDirListing();
+          this.updateListing();
+      },
       selectDir: function(path){
           this.target.push(path);
-          this.refreshListing();
+          this.updateListing();
       },
-      refreshListing: function(){
-          let out = this.test;
+      updateListing: function(){
+          let out = this.listing;
           for(let path of this.target){
               for(let item of out.children){
                   if(item.path === path){
@@ -111,7 +59,17 @@ export default {
           }else{
               this.target = [];
           }
-          this.refreshListing();
+          this.updateListing();
+      },
+      getDirListing: async function(){
+        try{
+            const response = await axios.post('/api/dirListing', {token: this.user.token, type: this.type});
+            if(response.status === 200){
+                this.listing = response.data;
+            }
+        }catch(err){
+            console.log(err);
+        }
       }
   }
 }
