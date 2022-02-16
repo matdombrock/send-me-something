@@ -7,10 +7,17 @@
     <div v-else>
       <div class="top-bar">
         Welcome {{user.username}} | <span class="span-btn" @click="logout()">Logout</span>
+        <hr>
+          <span class="lower-nav sm">
+            <span class="span-btn" @click="changeScreen('personal')">Personal Files</span> | 
+            <span class="span-btn" @click="changeScreen('public')">Public Files</span> | 
+            <span class="span-btn" @click="changeScreen('upload')">Upload</span> | 
+            <span class="span-btn" @click="changeScreen('settings')">Settings</span>
+        </span>
       </div>
-      <Upload :user="user"/>
+      <Upload v-if="state.screen === 'upload'" :user="user"/>
+      <Listing v-if="state.screen === 'public'" />
     </div>
-    <Listing />
     <a class="footer sm" href="/public/" target="_blank">VIEW MY PUBLIC FILES</a>
   </div>
 </template>
@@ -35,6 +42,9 @@ export default {
         isLoggedIn: false,
         token: ''
       },
+      state:{
+        screen: 'upload'
+      }
     }
   },
   methods:{
@@ -49,6 +59,9 @@ export default {
       this.user.username ='';
       localStorage.removeItem('token');
       localStorage.removeItem('username');
+    },
+    changeScreen(screen){
+      this.state.screen = screen;
     }
   }
 }
@@ -129,5 +142,6 @@ input{
   position:fixed;
   top:1rem;
   right:2rem;
+  text-align:right;
 }
 </style>
