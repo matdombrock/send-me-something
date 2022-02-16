@@ -28,6 +28,7 @@ const logger = require('./middleware/logger');
 
 const serveIndex = require('serve-index');
 const createUser = require('./util/createUser');
+const download = require('./routes/download');
 
 const app = express();
 const port = config.port ? config.port : 3000;
@@ -37,9 +38,9 @@ app.use(cors());
 app.use(logger);
 
 app.use(express.static('view'));
-app.use('/public', express.static(config.local_public_dir));
-app.use('/public', serveIndex(config.local_public_dir, {stylesheet:__dirname+'/listingStyle.css'}));
-app.use('/private', express.static(config.local_private_dir));
+// app.use('/public', express.static(config.local_public_dir));
+// app.use('/public', serveIndex(config.local_public_dir, {stylesheet:__dirname+'/listingStyle.css'}));
+// app.use('/private', express.static(config.local_private_dir));
 
 app.use(fileUpload({
   createParentPath: true
@@ -59,6 +60,38 @@ app.post('/api/dirListing',auth, routes.dirListing);
 //app.post('/createUser', routes.createUser);
 
 app.post('/upload', auth, routes.upload);
+
+
+let downloadTokens = {};
+app.post('/api/dlToken', (req, res)=>{
+  const type = req.body.type;
+  const path = req.body.filePath;
+  const name = req.body.fileName;
+  let dir;
+  switch(type){
+    case('public'):
+        dir = config.local_public_dir;
+        break;
+    case('incoming'):
+        dir = config.local_incoming_dir;
+        break;
+    case('personal'):
+        dir = '';
+        break;
+    default:
+        res.send('Unknown type');
+  }
+  //const lastEl = dir.split('/').pop();
+  const fullPath = dir.replaceAll('/'+type+'/', '') + path;// hack for now
+  downloadTokens['testToken'] = [fullPath, name];
+  console.log('New dlToken: '+downloadTokens['testToken']);
+  res.send('testToken');
+});
+app.get('/api/download', (req, res)=>{
+  const dlToken = req.query.dlToken;
+  const dlItem = downloadTokens[dlToken]
+  res.download(...dlItem);
+});
 
 //app.post('/download', auth, routes.download);
 

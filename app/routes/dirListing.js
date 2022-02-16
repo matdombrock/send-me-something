@@ -6,16 +6,16 @@ module.exports = (req, res) => {
     let dir;
     switch(type){
         case('public'):
-        dir = config.local_public_dir;
-        break;
+            dir = config.local_public_dir;
+            break;
         case('incoming'):
-        dir = config.local_incoming_dir;
-        break;
+            dir = config.local_incoming_dir;
+            break;
         case('personal'):
-        dir = '';
-        break;
+            dir = '';
+            break;
         default:
-        res.send('Unknown type');
+            res.send('Unknown type');
     }
     const tree = dirToJSON(dir, '/'+type+'/');
     res.send(tree);

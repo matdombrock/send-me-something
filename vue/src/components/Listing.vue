@@ -5,7 +5,8 @@
     <hr>
     <div class="listing-item" v-for="(item, index) of data.children" :key="index">
         <span v-if="item.children" @click="selectDir(item.path)">🗀 {{item.name}}</span>
-        <a v-else :href="item.path" target="_blank">{{item.name}}</a>
+        <!-- <a v-else :href="item.path" target="_blank">{{item.name}}</a> -->
+        <span v-else @click="dlFile(item)">{{item.name}}</span>
         <br>
     </div>
   </div>
@@ -70,6 +71,24 @@ export default {
         }catch(err){
             console.log(err);
         }
+      },
+      dlFile: async function(item){
+        try{
+            const response = await axios.post('/api/dlToken', {
+                token: this.user.token, 
+                type: this.type,
+                fileName: item.name,
+                filePath: item.path
+            });
+            if(!response.status === 200){
+                alert('File Not Found!');
+            }
+            const dlToken = response.data;
+            window.open('/api/download/?dlToken='+dlToken, '_blank');
+        }catch(err){
+            console.log(err);
+        }
+
       }
   }
 }
