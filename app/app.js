@@ -27,7 +27,7 @@ app.post('/api/dirListing',auth, routes.dirListing);
 app.post('/upload', auth, routes.upload);
 app.post('/api/dlToken', routes.dlToken);
 app.post('/login', routes.login);
-app.get('/api/download', routes.download);
+app.get('/download', routes.download);
 
 const createUser = require('./util/createUser');
 const buildLocalFS = require('./buildLocalFS');

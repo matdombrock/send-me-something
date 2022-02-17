@@ -79,20 +79,22 @@ export default {
 	/* Setup Main BG color */
 	--bg: rgb(var(--pr), var(--pg), var(--pb));
 	/* Calculate Color Variations */
-	/* --bg2: rgb(calc(var(--pr)*1.1), calc(var(--pg)*1.1), calc(var(--pb)*1.1));
+	/* --bg2a: rgb(calc(var(--pr)*1.1), calc(var(--pg)*1.1), calc(var(--pb)*1.1));
 	--bg3: rgb(calc(var(--pr)*1.2), calc(var(--pg)*1.2), calc(var(--pb)*1.2));
 	--bg4: rgb(calc(var(--pr)*1.3), calc(var(--pg)*1.3), calc(var(--pb)*1.3));
 	--bg5: rgb(calc(var(--pr)*1.4), calc(var(--pg)*1.4), calc(var(--pb)*1.4));
 	--bg6: rgb(calc(var(--pr)*1.5), calc(var(--pg)*1.5), calc(var(--pb)*1.5)); */
-  --bg2: rgba(33,33,33,0.7);
+  --bg2a: rgba(33,33,33,0.7);
+  --bg2: rgb(33,33,33);
   --text: #d3d3d3;
   --warning: rgb(243, 75, 75);
   --highlight: #42b9b3;
   --bg: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(1,125,150,1) 100%) fixed;
+  --bgi: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(1,125,150,1) 100%) fixed;
   --font-size:1.75rem;
 }
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Tahoma, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -105,7 +107,7 @@ body{
   font-size:var(--font-size);
 }
 button{
-  background: var(--bg2);
+  background: var(--bgi);
   color: var(--text);
   padding:1rem;
   border:1px solid var(--text);
@@ -113,6 +115,10 @@ button{
   font-size:var(--font-size);
   margin:var(--font-size);
   cursor:pointer;
+  transition: all 0.2s;
+}
+button:hover{
+  background:var(--bg);
 }
 a, a:visited {
   color: var(--highlight);
