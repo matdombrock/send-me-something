@@ -1,22 +1,6 @@
-const fs = require('fs');
-
-// look for volume
-if (fs.existsSync('/var/sendme')){
-  if(!fs.existsSync('/var/sendme/config.js')){
-    const configExample = fs.readFileSync('./config.example.js','utf-8');
-    fs.writeFileSync('/var/sendme/config.js', configExample);
-  }
-  if(!fs.existsSync('/var/sendme/users.json')){
-    fs.writeFileSync('/var/sendme/users.json', JSON.stringify([{username:'admin',password:'admin'}], null, 2));
-  }
-}
-
-let config;
-try{ config = require('/var/sendme/config')}catch(err){ config = require('./config')};
-let usersList;
-try{ usersList = require('/var/sendme/users.json')}catch(err){ usersList = require('./users.json')};
-
-
+const config = require('./configManager');
+console.log('Loaded Config From: '+config.config_path);
+const usersList = require(config.config_path+'/users.json');
 
 
 const express = require('express');
@@ -26,100 +10,30 @@ const routes = require('./routes');
 const auth = require("./middleware/auth");
 const logger = require('./middleware/logger');
 
-const serveIndex = require('serve-index');
-const createUser = require('./util/createUser');
-const download = require('./routes/download');
-
 const app = express();
 const port = config.port ? config.port : 3000;
 
 app.use(cors());
-
 app.use(logger);
-
 app.use(express.static('view'));
 // app.use('/public', express.static(config.local_public_dir));
-// app.use('/public', serveIndex(config.local_public_dir, {stylesheet:__dirname+'/listingStyle.css'}));
 // app.use('/private', express.static(config.local_private_dir));
-
 app.use(fileUpload({
   createParentPath: true
 }));
-
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-
-// app.get('/',(req, res) => {
-//   res.send('Hello World!');
-// });
-
 app.post('/api/dirListing',auth, routes.dirListing);
-
-//app.post('/welcome', auth, routes.welcome);
-
-//app.post('/createUser', routes.createUser);
-
 app.post('/upload', auth, routes.upload);
-
-
-let downloadTokens = {};
-app.post('/api/dlToken', (req, res)=>{
-  const type = req.body.type;
-  const path = req.body.filePath;
-  const name = req.body.fileName;
-  let dir;
-  switch(type){
-    case('public'):
-        dir = config.local_public_dir;
-        break;
-    case('incoming'):
-        dir = config.local_incoming_dir;
-        break;
-    case('personal'):
-        dir = '';
-        break;
-    default:
-        res.send('Unknown type');
-  }
-  const fullPath = dir.replaceAll('/'+type+'/', '') + path;
-  downloadTokens['testToken'] = [fullPath, name];
-  console.log('New dlToken: '+downloadTokens['testToken']);
-  res.send('testToken');
-});
-app.get('/api/download', (req, res)=>{
-  const dlToken = req.query.dlToken;
-  const dlItem = downloadTokens[dlToken]
-  res.download(...dlItem);
-});
-
-//app.post('/download', auth, routes.download);
-
-//app.post('/getFileURL', auth, routes.getFileURL);
-
-//app.post('/listUploads', auth, routes.listUploads);
-
+app.post('/api/dlToken', routes.dlToken);
 app.post('/login', routes.login);
+app.get('/api/download', routes.download);
+
+const createUser = require('./util/createUser');
+const buildLocalFS = require('./buildLocalFS');
 
 async function start(){
-  // create dirs
-  if (!fs.existsSync(config.local_incoming_dir)){
-    console.log('Created incoming directory at: '+config.local_incoming_dir);
-    fs.mkdirSync(config.local_incoming_dir,{ recursive: true });
-  }else{
-    console.log('Found incoming directory at: '+config.local_incoming_dir);
-  }
-  if (!fs.existsSync(config.local_public_dir)){
-    console.log('Created public directory at: '+config.local_public_dir);
-    fs.mkdirSync(config.local_public_dir,{ recursive: true });
-  }else{
-    console.log('Found public directory at: '+config.local_public_dir);
-  }
-  if (!fs.existsSync(config.local_private_dir)){
-    console.log('Created private directory at: '+config.local_private_dir);
-    fs.mkdirSync(config.local_private_dir,{ recursive: true });
-  }else{
-    console.log('Found private directory at: '+config.local_private_dir);
-  }
+  buildLocalFS();
   // createUsers
   if(usersList){
     await createUser.createList(usersList);

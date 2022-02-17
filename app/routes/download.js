@@ -1,14 +1,12 @@
-const fs = require('fs');
 const db = require('../db');
-const path = require('path');
-
-let config;
-try{ config = require('/var/sendme/config')}catch(err){ config = require('../config')};;
-
-module.exports = async (req, res) => { 
-  const baseUploadDir =  config.local_incoming_dir ? config.local_incoming_dir : __dirname+'/../uploads/';
-  const filePath = req.body.filePath;
-  const filePathFull = baseUploadDir+filePath;
-  const file = fs.readFileSync(filePathFull);
-  res.send(file);
+module.exports = async (req, res) => {
+    const dlToken = req.query.dlToken;
+    const dlItem = await db.DownloadTokens.findOne(
+        {
+            where:{
+                token:dlToken
+            }
+        }  
+    );
+    res.download(dlItem.fullPath, dlItem.name);
 }

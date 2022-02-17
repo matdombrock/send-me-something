@@ -2,8 +2,7 @@ const fs = require('fs');
 const db = require('../db');
 const path = require('path');
 
-let config;
-try{ config = require('/var/sendme/config')}catch(err){ config = require('../config')};
+const config = require('../configManager');
 
 module.exports = async (req, res) => { 
   console.log('New Upload From: '+req.user.username);

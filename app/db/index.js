@@ -1,6 +1,5 @@
 const { Sequelize } = require('sequelize');
-let config;
-try{ config = require('/var/sendme/config')}catch(err){ config = require('../config')};;
+const config = require('../configManager');
 
 const sequelize = new Sequelize({
   dialect: 'sqlite',
@@ -19,6 +18,24 @@ const User = sequelize.define('User', {
     allowNull: false
   },
   isAdmin:{
+    type: Sequelize.BOOLEAN,
+    allowNull: false
+  }
+}, {
+  // Other model options go here
+});
+
+const DownloadTokens = sequelize.define('DownloadTokens', {
+  // Model attributes are defined here
+  token: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  fullPath: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  name:{
     type: Sequelize.BOOLEAN,
     allowNull: false
   }
@@ -58,6 +75,7 @@ module.exports = {
     syncTables
   },
   User,
+  DownloadTokens
   //Uploads
 }
 

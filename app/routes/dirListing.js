@@ -1,6 +1,5 @@
 const dirToJSON = require('../util/dirToJSON');
-let config;
-try{ config = require('/var/sendme/config')}catch(err){ config = require('../config')};
+const config = require('../configManager');
 module.exports = (req, res) => {
     const type = req.body.type;
     let dir;
