@@ -3,6 +3,7 @@
 /db/database.sqlite
 /uploads/
 /public/
+/view/
 # Generic
 # Logs
 logs
