@@ -1,6 +1,6 @@
 module.exports = {
     port: 8081,
-    log_requests_to_console: false,
+    log_requests_to_console: true,
     db_logging: false,
     local_dir: __dirname+'/../storage/',
     //local_incoming_dir: __dirname+'/../storage/incoming/',
