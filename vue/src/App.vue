@@ -21,7 +21,7 @@
       <Listing v-if="state.screen === 'incoming'" :user="user" type="incoming"/>
       <Listing v-if="state.screen === 'private'" :user="user" type="private"/>
     </div>
-    <a class="footer sm" href="/public/" target="_blank">VIEW MY PUBLIC FILES</a>
+    <a class="footer sm" href="#" target="_blank">GPL</a>
   </div>
 </template>
 
