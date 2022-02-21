@@ -6,7 +6,7 @@ module.exports = function (req, res, next) {
     method: req.method,
     URL: req.originalUrl,
     query: req.query,
-    rawHeaders: req.rawHeaders,
+    //rawHeaders: req.rawHeaders,
   }
   if(config.log_requests_to_console){
     console.log(data)
