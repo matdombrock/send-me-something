@@ -8,5 +8,5 @@ module.exports = async (req, res) => {
             }
         }  
     );
-    res.download(dlItem.fullPath, dlItem.name);
+    res.download(dlItem.fullPath, dlItem.name, {dotfiles: 'allow'});
 }
