@@ -4,8 +4,8 @@
 /uploads/
 /public/
 /view/
-config.js
-users.json
+/config.js
+/users.json
 # Generic
 # Logs
 logs
