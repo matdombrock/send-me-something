@@ -1,9 +1,8 @@
 <template>
   <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
   <div class="listing">
+    <input type="text" @input="updateListing()" v-model="filterText" placeholder="filter"><br>
     <span class="listing-item" @click="back()">🗀 {{target[target.length-1] || ''}}/..</span>
-    <br>
-    <input type="text" @input="updateListing()" v-model="filterText" placeholder="filter">
     <hr>
     <div class="listing-item" v-for="(item, index) of subListingFiltered" :key="index" @click="selectItem(item)">
         <span v-if="item.children">🗀 {{item.name}}</span>
@@ -15,10 +14,11 @@
         <div class="modal-title">GET THIS FILE</div>
         <div class="modal-content">
             <div>{{viewedItem.name}}</div>
-            <a :href="'/download/?dlToken='+viewedItem.token" target="_blank"><button>DOWNLOAD</button></a>
+            <a class="btn-large" :href="'/download/?dlToken='+viewedItem.token"><button>⇓</button></a>
+            <a class="btn-large" :href="'/download/?dlToken='+viewedItem.token"><button>🔗</button></a>
             <div>~{{Number(viewedItem.size/1000000).toFixed(2)}}mb </div>
-            <div class="sm">{{viewedItem.path}}</div>
-            <div class="sm">{{viewedItem.ctime}}</div>
+            <div class="sm texta">{{viewedItem.path}}</div>
+            <div class="sm texta">{{viewedItem.ctime}}</div>
         </div>
     </div>
     
@@ -202,5 +202,8 @@ export default {
 .modal-content{
     padding:1rem;
     word-wrap: break-word;
+}
+.btn-large{
+    font-size:calc(var(--font-size)*2);
 }
 </style>

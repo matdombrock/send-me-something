@@ -86,7 +86,8 @@ export default {
 	--bg6: rgb(calc(var(--pr)*1.5), calc(var(--pg)*1.5), calc(var(--pb)*1.5)); */
   --bg2a: rgba(33,33,33,0.7);
   --bg2: rgb(33,33,33);
-  --text: #d3d3d3;
+  --text: rgb(211, 211, 211);
+  --texta: rgba(211, 211, 211, 0.549);
   --warning: rgb(243, 75, 75);
   --highlight: #42b9b3;
   --bg: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(1,125,150,1) 100%) fixed;
@@ -116,6 +117,7 @@ button{
   margin:var(--font-size);
   cursor:pointer;
   transition: all 0.2s;
+  min-width:6rem;
 }
 button:hover{
   background:var(--bg);
@@ -124,11 +126,24 @@ a, a:visited {
   color: var(--highlight);
   text-decoration: none;
 }
+hr{
+  border-color: var(--texta);
+}
 input{
   font-size:var(--font-size);
+  margin: 0.5rem;
+  background: var(--bg);
+  color: var(--text);
+  outline: 2px solid var(--texta);
+  border: none;
+  padding:0.5rem;
+  border-radius: 0.25rem;
 }
 .sm{
   font-size:calc(var(--font-size)*0.5);
+}
+.texta{
+  color:var(--texta);
 }
 .warning{
   font-size:var(--font-size);
