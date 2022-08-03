@@ -1,3 +1,6 @@
+# SEND ME SOMETHING
+Send Me Something is a self-hosted file sharing app. Something like a hybrid between Dropbox and Syncthing. 
+
 ## Running on Host Machine
 ```
 git clone https://github.com/matdombrock/send-me-something.git
